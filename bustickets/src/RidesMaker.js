@@ -20,7 +20,6 @@ function AssigningRides() {
     else {
         let ridesFromStorage = window.localStorage.getItem("BusRides")
         let parsedFromStorage = JSON.parse(ridesFromStorage);
-        console.log(parsedFromStorage)
         assignedRides = deleteDatesPassed(parsedFromStorage);
         for(let i = 0; i < assignedRides.length; i++){
             if(assignedRides[i].Date.slice(-2)[0]=="0"){
@@ -34,20 +33,16 @@ function AssigningRides() {
 
 function deleteDatesPassed(arr) {
     let newRides = [];
-    console.log(todaysDateObj)
     for (let i = 0; i < arr.length; i++) {
         if(arr[i].Date.slice(-2)[0]=="-"){
             arr[i].Date = arr[i].Date.slice(0,8) + "0" + arr[i].Date.slice(-1);
         }
         if (arr[i].Date < todaysDateObj) {
-            console.log(arr[i].Date)
             let idx = arr.findIndex(r => r.num === arr[i].num);
             arr.splice(idx, 1);
             newRides = BuildRidesArray(1, getDateInMonth)
             newRides[0].num = arr.length + i;
-            console.log(newRides)
             arr.push(newRides[0]);
-            console.log(arr)
             i-=1;
         }
     }
