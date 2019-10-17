@@ -9,11 +9,13 @@ class Form extends React.Component {
 
         this.state = {
             cities: ["New York, NY", "Memphis, TN", "Toronto, ON", "Miami, FL"],
+            secondArr: [],
             chosenDeparture: " ",
             chosenArrival: " ",
             chosenDate: " ",
             buttonClick: false,
             weekArrays: [],
+            arriveButton: true,
         }
 
         this.chosenArrival = this.chosenArrival.bind(this)
@@ -69,7 +71,11 @@ class Form extends React.Component {
     }
 
     chosenDeparture = (e) => {
-        this.setState({ chosenDeparture: e.target.value, buttonClick:false }, () => {})
+        let remainingCities = ["New York, NY", "Memphis, TN", "Toronto, ON", "Miami, FL"];
+        let idx = remainingCities.indexOf(e.target.value);
+        remainingCities.splice(idx, 1);
+
+        this.setState({ chosenDeparture: e.target.value, buttonClick:false, arriveButton: false, secondArr: remainingCities, }, () => {})
     }
 
     chosenArrival = (e) => {
@@ -141,9 +147,9 @@ class Form extends React.Component {
                 </select>
             <br className="mobile-display"/>
                 <span> Arrive To: </span>
-                <select onChange={this.chosenArrival}>
+                <select disabled={this.state.arriveButton} onChange={this.chosenArrival}>
                 <option>Select City</option>
-                    {this.state.cities.map(city => <option value={city}>{city}</option>)}
+                    {this.state.secondArr.map(city => <option value={city}>{city}</option>)}
                 </select>
                 <br className="mobile-display"/>
                 <br className="tablet-display"/>
